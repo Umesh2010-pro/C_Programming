@@ -1,0 +1,138 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+//------DEFINING A STRUCTURE---------
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *head = NULL;
+
+//-----CREATING A SINGLE LINKED LIST----------
+void create()
+{
+    struct node *newnode, *temp;
+    int n, i;
+
+    printf("Enter number of nodes in the single linked list: ");
+    scanf("%d", &n);
+
+    for(i = 1; i <= n; i++)
+    {
+        newnode = malloc(sizeof(struct node));
+
+        if(newnode == NULL)
+        {
+            printf("\nMemory allocation is unsuccessful");
+            return;
+        }
+
+        printf("\nEnter data into the node %d : ", i);
+        scanf("%d", &(newnode -> data));
+
+        newnode -> next = NULL;
+
+        if(head == NULL)
+            head = newnode;
+        else
+            temp -> next = newnode;
+        
+        temp = newnode;
+    }
+}
+
+//-------DELETING A NODE AT SPECIFIED POSITION OF THE SINGLE LINKED LIST-------------------
+void delete_pos()
+{
+    struct node *temp, *del;
+    int pos, i;
+
+    if(head == NULL)
+    {
+        printf("\nList is empty !");
+        return;
+    }
+
+    printf("\nEnter position to delete : ");
+    scanf("%d", &pos);
+
+    if(pos < 1)
+    {
+        printf("\nInvalid position !");
+        return;
+    }
+
+    if(pos == 1)
+    {
+        temp = head;
+        head = head->next;
+        free(temp);
+        return;
+    }
+
+    temp = head;
+
+    for(i = 1; i < pos - 1 && temp != NULL; i++)
+        temp = temp->next;
+
+    if(temp == NULL || temp->next == NULL)
+    {
+        printf("\nInvalid position !");
+        return;
+    }
+
+    del = temp->next;
+    temp->next = del->next;
+    free(del);
+    
+}
+
+//-----------DISPLAYING THE SINGLE LINKED LIST------------------
+void display()
+{
+    struct node *temp = head;
+
+    while(temp != NULL)
+    {
+        printf("%d -> ", temp -> data);
+        temp = temp -> next;
+    }
+    printf("NULL");
+
+}
+
+//---------MAIN METHOD------------------
+int main()
+{
+    int ch;
+
+    while(1)
+    {
+        printf("-------SINGLE LINKED LIST MENU--------\n1. Create (Only once)\n2. Delete at random position\n3. Display\n4. Exit\nEnter your choice : ");
+        scanf("%d", &ch);
+
+        //-----SWITCH CASE MENU OF SINGLE LINKED LIST-----------
+        switch (ch)
+        {
+        case 1:
+            create();
+            break;
+        case 2:
+            delete_pos();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            exit(0);
+        default:
+            printf("Invalid choice");
+            break;
+        }
+
+    }
+
+    return 0;
+}
